@@ -18,6 +18,13 @@ jobs:
       - run: npm run build --if-present
         env:
           CI: true
+      - name: Run for feat/* branches
+        if: startsWith(github.ref, 'refs/heads/feat/')
+        run: echo "This runs only for feat/* branches"
+
+      - name: Run for main branch
+        if: github.ref == 'refs/heads/main'
+        run: echo "This runs only for the main branch"          
 
   # job-reusable-2:
   #   runs-on: ubuntu-latest
