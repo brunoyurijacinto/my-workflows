@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  build:
+  build-framework:
     if: startsWith(github.ref, 'refs/heads/feat/')
     runs-on: ubuntu-latest
 
