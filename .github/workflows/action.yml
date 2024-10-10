@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  build-ET:
+  build:
     if: startsWith(github.ref, 'refs/heads/feat/')
     runs-on: ubuntu-latest
 
@@ -23,18 +23,29 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/feat/')
         run: echo "This runs only for feat/* branches"
 
+  devopsdev01:
+    runs-on: ubuntu-latest
+    environment: dev01
+    needs: build
+    steps:
+      - uses: actions/checkout@v2.3.4 # Necessary to access local action
       - name: Run for main branch
         run: cat README.md
 
-  job-reusable-2:
+  devopsqa01:
     runs-on: ubuntu-latest
-    environment: production
-    needs: build-ET
+    environment: qa01
+    needs: build
     steps:
       - uses: actions/checkout@v2.3.4 # Necessary to access local action
-      - name: Show Production Environment Variable
-        run: |
-          echo "The value of the variable 'teste' is: ${{ secrets.TESTE }}"
-      - name: Show Production Environment Variablea
-        run: |
-          echo "The value of the variable 'teste' is: ${{ vars.NOME }}"
+      - name: Run for main branch
+        run: cat README.md
+
+  devopsprod01:
+    runs-on: ubuntu-latest
+    environment: prod01
+    needs: build
+    steps:
+      - uses: actions/checkout@v2.3.4 # Necessary to access local action
+      - name: Run for main branch
+        run: cat README.md
